@@ -1,4 +1,4 @@
 .idea/
 .releases/
-upx-4.0.2-win64/
+compiler_assets/
 exe_compiler.py
