@@ -1,0 +1,16 @@
+terminal:
+  enable_colors: True  # Default: True
+
+output_file:
+  language: pt-br  # Default: pt-br
+  voice_region: com.br  # Default: com.br
+  audio_speed: 1.00  # Default: 1.00
+  audio_bitrate: 128  # Default: 128 (kbps) | 32, 64, 96, 128, 160, 192, 256, 320
+
+autoplay_on_finish:
+  mode: True  # Default: True
+  autoplay_on_finish_delay: 1  # Default: 1
+
+delete_audiofile_on_finish:
+  mode: False  # Default: False
+  delete_on_finish_delay: 2  # Default: 2

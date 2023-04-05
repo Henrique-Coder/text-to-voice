@@ -1,0 +1,6 @@
+colorama
+gtts
+mutagen
+pygame
+pyyaml
+requests

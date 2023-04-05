@@ -1,0 +1,4 @@
+.idea/
+.releases/
+upx-4.0.2-win64/
+exe_compiler.py
