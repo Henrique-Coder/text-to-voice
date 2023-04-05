@@ -1,16 +1,34 @@
-from os import system as cmd, remove, path
+from os import system as cmd, remove, path, makedirs, environ
 from time import sleep
 from tkinter import Tk, filedialog
 from colorama import init as color_init, Fore as cFore
 from gtts import gTTS
 from mutagen.mp3 import MP3
 from pygame import init as pyg_init, mixer as pyg_mixer, quit as pyg_quit
-from yaml import safe_load
 from requests import get
+from yaml import safe_load
 
 
 # Limpa a tela do terminal
 cmd('cls || clear')
+
+# Baixa o arquivo de configurações caso ele não exista
+if not path.exists('settings.yaml'):
+    with open('settings.yaml', 'wb') as f:
+        f.write(get('https://raw.githubusercontent.com/Henrique-Coder/text-to-voice/main/assets/settings.yaml').content)
+
+# Cria a pasta do programa caso ela não exista
+userprofile_name = environ['userprofile']
+app_dir = f'{userprofile_name}\\AppData\Local\\Text TO Voice'
+makedirs(f'{app_dir}\\assets', exist_ok=True)
+
+# Cria as variaveis para arquivos/pastas do programa
+explorer_ico = f'{app_dir}\\assets\\explorer.ico'
+
+# Baixa os arquivos necessários para o programa funcionar caso eles não existam
+if not path.exists(explorer_ico):
+    with open(explorer_ico, 'wb') as f:
+        f.write(get('https://raw.githubusercontent.com/Henrique-Coder/text-to-voice/main/assets/explorer.ico').content)
 
 # Carrega as configurações do arquivo YAML
 with open('settings.yaml', 'r') as f:
@@ -44,7 +62,7 @@ if enable_colors:
 # Inicializa a janela Tkinter e oculta-a
 root = Tk()
 root.withdraw()
-root.iconbitmap('assets/explorer.ico')
+root.iconbitmap(explorer_ico)
 
 # Abre uma janela de diálogo para selecionar o arquivo de entrada
 file_path = filedialog.askopenfilename(title='Selecione um arquivo de texto para criar um áudio',
