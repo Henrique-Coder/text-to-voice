@@ -1,4 +1,15 @@
+# PyCharm items
 .idea/
-.releases/
+
+# Folders
 compiler_assets/
-exe_compiler.py
+build/
+dist/
+.releases/
+.images/
+
+# Extensions
+*.spec
+
+# Files
+py_to_exe_compiler.py
