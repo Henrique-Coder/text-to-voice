@@ -1,5 +1,6 @@
 # PyCharm items
 .idea/
+__pycache__/
 
 # Folders
 compiler_assets/
@@ -7,6 +8,7 @@ build/
 dist/
 .releases/
 .other/
+tacotron2/
 
 # Extensions
 *.spec
