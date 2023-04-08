@@ -15,6 +15,9 @@ from main_assets import default_settings, favicon_ico_base64, explorer_ico_base6
 # Limpa a tela do terminal
 cmd('cls || clear')
 
+# Habilita cores no terminal
+color_init(autoreset=True)
+
 # Cria a pasta do programa caso ela não exista
 userprofile_name = environ['userprofile']
 app_dir = f'{userprofile_name}\\AppData\Local\\Text-to-Voice'
@@ -42,10 +45,6 @@ if not path.exists(explorer_ico):
 with open('settings.yaml', 'r') as f:
     settings = safe_load(f)
 
-# Configurações do terminal
-terminal_settings = settings['terminal']
-enable_colors = terminal_settings.get('enable_colors', True)
-
 # Configurações de saída de arquivo
 output_settings = settings['output_file']
 language = output_settings.get('language', 'pt-br')
@@ -62,10 +61,6 @@ autoplay_delay = autoplay_settings.get('autoplay_on_finish_delay', 1)
 delete_settings = settings['delete_audiofile_on_finish']
 delete_mode = delete_settings.get('mode', False)
 delete_delay = delete_settings.get('delete_on_finish_delay', 2)
-
-# Habilita cores no terminal caso o usuario tenha ativado
-if enable_colors:
-    color_init(autoreset=True)
 
 # Inicializa a janela Tkinter e oculta-a
 root = Tk()
@@ -102,7 +97,7 @@ if audio_speed not in [1, 1.0, 1.00]:
 # Reproduz o áudio com o pygame caso o modo de reprodução automática esteja ativado
 if autoplay_mode:
     # Setando a variável output_file para original_file caso a velocidade seja 1x
-    if audio_speed in [1, 1.0, 1.00]:
+    if audio_speed in [1, 1.0, 1.00, 1.000]:
         output_file = original_file
 
     # Inicializa a biblioteca pygame, carrega o arquivo de áudio e reproduz o áudio com um delay
@@ -114,14 +109,14 @@ if autoplay_mode:
     # Define a posição inicial da reprodução do áudio
     start_pos = pyg_mixer.music.get_pos()
 
+    # Obtém a duração do áudio em segundos
+    audio = MP3(output_file)
+    duration_in_secs = int(audio.info.length)
+
     # Espera a reprodução completa do áudio e finaliza a biblioteca pygame
     while pyg_mixer.music.get_busy():
         current_pos = pyg_mixer.music.get_pos()
-        # Mostre o tempo restante para o final da reprodução
-        audio = MP3(output_file)
-        duration_in_secs = int(audio.info.length)
-        if enable_colors: print(f'{cFore.LIGHTWHITE_EX}A reprodução finalizará em {cFore.LIGHTYELLOW_EX}{duration_in_secs - round((current_pos - start_pos) / 1000)}' + f' {cFore.LIGHTWHITE_EX}segundo(s)', end='\r')
-        else: print(f'A reprodução finalizará em {duration_in_secs - round((current_pos - start_pos) / 1000)} segundo(s)', end='\r')
+        print(f'{cFore.LIGHTWHITE_EX}A reprodução finalizará em {cFore.LIGHTYELLOW_EX}{duration_in_secs - round((current_pos - start_pos) / 1000)}' + f' {cFore.LIGHTWHITE_EX}segundo(s)', end='\r')
         sleep(1)
 
     # Finaliza a biblioteca pygame
